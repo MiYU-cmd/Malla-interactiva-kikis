@@ -90,11 +90,17 @@ function renderGrid() {
   const ordered = Object.entries(courses).sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
 
   ordered.forEach(([semester, list]) => {
+    const semesterContainer = document.createElement("div");
+    semesterContainer.className = "semester-container";
+    
     const label = document.createElement("div");
     label.textContent = semester;
     label.className = "semester-label";
-    grid.appendChild(label);
+    semesterContainer.appendChild(label);
 
+    const coursesContainer = document.createElement("div");
+    coursesContainer.className = "courses-container";
+    
     list.forEach(item => {
       const name = typeof item === "string" ? item : item.name;
       const unlocked = isUnlocked(item, approved);
@@ -113,8 +119,12 @@ function renderGrid() {
         });
       }
 
-      grid.appendChild(cell);
+      coursesContainer.appendChild(cell);
     });
+    
+    semesterContainer.appendChild(coursesContainer);
+    grid.appendChild(semesterContainer);
   });
 }
+
 renderGrid();
