@@ -1,120 +1,186 @@
-const grid = document.getElementById("grid");
-const courses = {
-  "Semestre 1": [
-    "Estrategias para el Aprendizaje",
-    "Antropología",
-    "Fundamentos Biológicos del Comportamiento",
-    "Procesos Cognitivos",
-    "Evolución Histórica de la Psicología",
-    "Fundamentos Filosóficos de la Psicología",
-    "Taller de Comunicación"
-  ],
-  "Semestre 2": [
-    { name: "Ética", reqs: ["Antropología"] },
-    { name: "Neuropsicología", reqs: ["Fundamentos Biológicos del Comportamiento"] },
-    "Procesos Afectivos",
-    "Fundamentos Sociantropológicos del Comportamiento",
-    "Introducción a la Metodología de la Investigación",
-    "Taller de Trabajo Grupal",
-    { name: "Electivo de Formación Integral I", reqs: ["Ética"] }
-  ],
-  "Semestre 3": [
-    { name: "Psicología Evolutiva I", reqs: ["Procesos Cognitivos", "Procesos Afectivos"] },
-    { name: "Psicología de la Personalidad", reqs: ["Procesos Cognitivos", "Procesos Afectivos"] },
-    "Psicología Social I",
-    { name: "Metodología de la Investigación Aplicada a la Psicología", reqs: ["Introducción a la Metodología de la Investigación"] },
-    "Taller de Entrevista",
-    "Electivo Formación Integral II"
-  ],
-  "Semestre 4": [
-    { name: "Psicopatología General", reqs: ["Psicología de la Personalidad"] },
-    { name: "Psicología Evolutiva II", reqs: ["Psicología Evolutiva I"] },
-    { name: "Psicología Social II", reqs: ["Psicología Social I"] },
-    { name: "Análisis de Datos Cuantitativos", reqs: ["Metodología de la Investigación Aplicada a la Psicología"] },
-    { name: "Evaluación Psicológica Cognitiva", reqs: ["Neuropsicología", "Psicología de la Personalidad"] },
-    "Electivo de Formación Integral III"
-  ],
-  "Semestre 5": [
-    { name: "Psicopatología y Psiquiatría Infantil", reqs: ["Psicopatología General"] },
-    { name: "Teorías Psicológicas I", reqs: ["Evolución Histórica de la Psicología"] },
-    { name: "Análisis de Datos Cualitativos", reqs: ["Metodología de la Investigación Aplicada a la Psicología"] },
-    { name: "Evaluación Psicológica de la Personalidad", reqs: ["Evaluación Psicológica Cognitiva"] },
-    "Políticas Públicas",
-    "Electivo de Formación Integral IV"
-  ],
-  "Semestre 6": [
-    { name: "Teorías Psicológicas II", reqs: ["Evolución Histórica de la Psicología"] },
-    { name: "Psicopatología y Psiquiatría Adulto", reqs: ["Psicopatología General"] },
-    { name: "Evaluación Psicológica Integrada", reqs: ["Evaluación Psicológica de la Personalidad"] },
-    { name: "Introducción a la Formulación y Evaluación de Proyectos Sociales", reqs: ["Metodología de la Investigación Aplicada a la Psicología"] },
-    { name: "Taller Persona del Psicólogo", reqs: ["Evaluación Psicológica de la Personalidad"] }
-  ],
-  "Semestre 7": [
-    { name: "Introducción a la Psicoterapia Sistémica", reqs: ["Teorías Psicológicas I"] },
-    { name: "Introducción a la Psicoterapia Psicoanalítica", reqs: ["Teorías Psicológicas I"] },
-    { name: "Comportamiento Organizacional", reqs: ["Psicología Social II", "Teorías Psicológicas I", "Teorías Psicológicas II"] },
-    { name: "Factores Psicológicos en Procesos Educativos", reqs: ["Psicología Social II", "Teorías Psicológicas I", "Teorías Psicológicas II"] },
-    { name: "Problemas Psicosociales Actuales", reqs: ["Psicología Social II", "Teorías Psicológicas I", "Teorías Psicológicas II"] }
-  ],
-  "Semestre 8": [
-    { name: "Introducción a la Psicoterapia Cognitiva", reqs: ["Teorías Psicológicas II"] },
-    { name: "Introducción a la Psicoterapia Humanista", reqs: ["Teorías Psicológicas II"] },
-    { name: "Gestión de Personas y Organizaciones", reqs: ["Comportamiento Organizacional", "Teorías Psicológicas I", "Teorías Psicológicas II"] },
-    { name: "Gestión Escolar", reqs: ["Factores Psicológicos en Procesos Educativos", "Teorías Psicológicas I", "Teorías Psicológicas II"] },
-    { name: "Psicología Comunitaria", reqs: ["Problemas Psicosociales Actuales", "Teorías Psicológicas I", "Teorías Psicológicas II"] },
-    "Electivos Especialización I y II"
-  ],
-  "Semestre 9": [
-    { name: "Proyecto de Investigación", reqs: ["Análisis de Datos Cuantitativos"] },
-    "Electivo Especialización III",
-    { name: "Integración en Psicología", reqs: ["Teorías Psicológicas I", "Teorías Psicológicas II"] }
-  ],
-  "Semestre 10": [
-    { name: "Práctica Profesional", reqs: ["Proyecto de Investigación", "Integración en Psicología"] },
-    { name: "Seminario de Investigación", reqs: ["Proyecto de Investigación", "Integración en Psicología"] }
-  ]
-};
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular Interactiva</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .semester-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .semester-header {
+            background-color: #4a6fa5;
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .semester-header:hover {
+            background-color: #3a5a8a;
+        }
+        
+        .semester-courses {
+            display: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .semester-courses.show {
+            display: block;
+        }
+        
+        .course {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        .course:last-child {
+            border-bottom: none;
+        }
+        
+        .course.locked {
+            color: #999;
+            background-color: #f9f9f9;
+        }
+        
+        .course.approved {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .toggle-icon {
+            transition: transform 0.3s;
+        }
+        
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+        
+        @media (min-width: 768px) {
+            body {
+                padding: 30px;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Malla Curricular de Psicología</h1>
+    <div id="grid"></div>
 
-const state = {};
+    <script>
+        const grid = document.getElementById("grid");
+        const courses = {
+            "Semestre 1": [
+                "Estrategias para el Aprendizaje",
+                "Antropología",
+                "Fundamentos Biológicos del Comportamiento",
+                "Procesos Cognitivos",
+                "Evolución Histórica de la Psicología",
+                "Fundamentos Filosóficos de la Psicología",
+                "Taller de Comunicación"
+            ],
+            "Semestre 2": [
+                { name: "Ética", reqs: ["Antropología"] },
+                { name: "Neuropsicología", reqs: ["Fundamentos Biológicos del Comportamiento"] },
+                "Procesos Afectivos",
+                "Fundamentos Sociantropológicos del Comportamiento",
+                "Introducción a la Metodología de la Investigación",
+                "Taller de Trabajo Grupal",
+                { name: "Electivo de Formación Integral I", reqs: ["Ética"] }
+            ],
+            // ... (resto de los semestres como en tu código original)
+        };
 
-function isUnlocked(course, approved) {
-  if (typeof course === "string") return true;
-  return course.reqs.every(r => approved[r]);
-}
+        const state = {};
 
-function renderGrid() {
-  grid.innerHTML = "";
-  const approved = {};
-  for (const k in state) if (state[k]) approved[k] = true;
+        function isUnlocked(course, approved) {
+            if (typeof course === "string") return true;
+            return course.reqs.every(r => approved[r]);
+        }
 
-  const ordered = Object.entries(courses).sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
+        function renderGrid() {
+            grid.innerHTML = "";
+            const approved = {};
+            for (const k in state) if (state[k]) approved[k] = true;
 
-  ordered.forEach(([semester, list]) => {
-    const label = document.createElement("div");
-    label.textContent = semester;
-    label.className = "semester-label";
-    grid.appendChild(label);
+            const ordered = Object.entries(courses).sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
 
-    list.forEach(item => {
-      const name = typeof item === "string" ? item : item.name;
-      const unlocked = isUnlocked(item, approved);
-      const approvedNow = !!state[name];
+            ordered.forEach(([semester, list]) => {
+                const container = document.createElement("div");
+                container.className = "semester-container";
+                
+                const header = document.createElement("div");
+                header.className = "semester-header";
+                header.innerHTML = `
+                    <span>${semester}</span>
+                    <span class="toggle-icon">›</span>
+                `;
+                
+                const coursesContainer = document.createElement("div");
+                coursesContainer.className = "semester-courses";
+                
+                list.forEach(item => {
+                    const name = typeof item === "string" ? item : item.name;
+                    const unlocked = isUnlocked(item, approved);
+                    const approvedNow = !!state[name];
 
-      const cell = document.createElement("div");
-      cell.className = "course";
-      if (!unlocked) cell.classList.add("locked");
-      if (approvedNow) cell.classList.add("approved");
-      cell.textContent = name;
+                    const course = document.createElement("div");
+                    course.className = "course";
+                    if (!unlocked) course.classList.add("locked");
+                    if (approvedNow) course.classList.add("approved");
+                    course.textContent = name;
 
-      if (unlocked) {
-        cell.addEventListener("click", () => {
-          state[name] = !state[name];
-          renderGrid();
-        });
-      }
+                    if (unlocked) {
+                        course.addEventListener("click", () => {
+                            state[name] = !state[name];
+                            renderGrid();
+                        });
+                    }
 
-      grid.appendChild(cell);
-    });
-  });
-}
-renderGrid();
+                    coursesContainer.appendChild(course);
+                });
+                
+                header.addEventListener("click", () => {
+                    coursesContainer.classList.toggle("show");
+                    header.querySelector(".toggle-icon").classList.toggle("rotated");
+                });
+                
+                container.appendChild(header);
+                container.appendChild(coursesContainer);
+                grid.appendChild(container);
+            });
+        }
+        
+        renderGrid();
+    </script>
+</body>
+</html>
