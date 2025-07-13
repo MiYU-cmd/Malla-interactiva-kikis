@@ -1,4 +1,5 @@
 const grid = document.getElementById("grid");
+
 const courses = {
   "Semestre 1": [
     "Estrategias para el Aprendizaje",
@@ -87,9 +88,7 @@ function renderGrid() {
   const approved = {};
   for (const k in state) if (state[k]) approved[k] = true;
 
-  const ordered = Object.entries(courses).sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
-
-  ordered.forEach(([semester, list]) => {
+  Object.entries(courses).forEach(([semester, list]) => {
     const label = document.createElement("div");
     label.textContent = semester;
     label.className = "semester-label";
@@ -117,4 +116,5 @@ function renderGrid() {
     });
   });
 }
+
 renderGrid();
